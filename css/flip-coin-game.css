@@ -1,0 +1,20 @@
+#flip {
+    padding: 12px;
+    margin: 0 0 12px 0;
+}
+#flip-coin{
+    display: flex;
+    justify-content: center;
+}
+.circle {
+    width: 132px;
+    height: 132px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: goldenrod;
+    color: rgb(27, 27, 27);
+    font-size: 64px;
+    border-radius: 50%;
+    outline: 2px solid rgb(27, 27, 27);
+}
