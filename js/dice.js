@@ -2,8 +2,9 @@ const btnRoll = document.getElementById('roll');
 
 let yourResult;
 let opponentResult;
+let myDiceResults = [];
 
-const dice = { 
+const dice = {
     dice1: `
         <div class="dice first-face">
         <span class="dot">
@@ -83,6 +84,7 @@ const opponentScore = document.getElementById('opponent-score')
 function rollYourDice() {
     let result = Math.floor((Math.random() * 6) + 1);
     yourResult += result
+    myDiceResults.push(result)
     return borderDice(result)
 }
 function rollOpponentDice() {
@@ -113,22 +115,22 @@ function showYourDices() {
     diceNum4.innerHTML = `${rollYourDice()}`;
     diceNum5.innerHTML = `${rollYourDice()}`;
 };
-function showOpponentDices(){
+function showOpponentDices() {
     diceOpponent1.innerHTML = `${rollOpponentDice()}`;
     diceOpponent2.innerHTML = `${rollOpponentDice()}`;
     diceOpponent3.innerHTML = `${rollOpponentDice()}`;
     diceOpponent4.innerHTML = `${rollOpponentDice()}`;
     diceOpponent5.innerHTML = `${rollOpponentDice()}`;
 };
-function whoWin() {
-    if (yourResult > opponentResult) {
-        alert('You Win!') 
-    } else if (yourResult < opponentResult) {
-        alert('You Lose :(')
-    } else {
-        alert("Realy? it's draw")
-    }
-}
+// function whoWin() {
+//     if (yourResult > opponentResult) {
+//         alert('You Win!')
+//     } else if (yourResult < opponentResult) {
+//         alert('You Lose :(')
+//     } else {
+//         alert("Realy? it's draw")
+//     }
+// }
 btnRoll.onclick = () => {
     yourResult = 0;
     opponentResult = 0;
@@ -138,33 +140,53 @@ btnRoll.onclick = () => {
     opponentScore.innerHTML = `Opponent's score: ${opponentResult}`;
     window.setTimeout(whoWin, 200)
 }
-// diceNum1.onclick = () => {
-//     diceNum1.style = `
-//     outline: 2px solid black; 
-//     border-radius: 12px
-//     `
-// }
-// diceNum2.onclick = () => {
-//     diceNum2.style = `
-//     outline: 2px solid black; 
-//     border-radius: 12px
-//     `
-// }
-// diceNum3.onclick = () => {
-//     diceNum3.style = `
-//     outline: 2px solid black; 
-//     border-radius: 12px
-//     `
-// }
-// diceNum4.onclick = () => {
-//     diceNum4.style = `
-//     outline: 2px solid black; 
-//     border-radius: 12px
-//     `
-// }
-// diceNum5.onclick = () => {
-//     diceNum5.style = `
-//     outline: 2px solid black; 
-//     border-radius: 12px
-//     `
-// }
+
+diceNum1.onclick = () => {
+    if (diceNum1.getAttribute('status') === 'off') {
+        diceNum1.style = `
+        outline: 2px solid black; 
+        border-radius: 12px
+        `
+    diceNum1.setAttribute('status', 'on')
+
+    } else {
+        diceNum1.style = `
+        outline: none; 
+        border-radius: 12px
+        `
+        diceNum1.setAttribute('status', 'on')
+    }
+}
+diceNum2.onclick = () => {
+    if (diceNum2.getAttribute('status') === 'off') {
+        diceNum2.style = `
+        outline: 2px solid black; 
+        border-radius: 12px
+        `
+    diceNum2.setAttribute('status', 'on')
+    } else {
+        diceNum2.style = `
+        outline: none; 
+        border-radius: 12px
+        `
+        diceNum2.setAttribute('status', 'on')
+    }
+}
+diceNum3.onclick = () => {
+    diceNum3.style = `
+    outline: 2px solid black; 
+    border-radius: 12px
+    `
+}
+diceNum4.onclick = () => {
+    diceNum4.style = `
+    outline: 2px solid black; 
+    border-radius: 12px
+    `
+}
+diceNum5.onclick = () => {
+    diceNum5.style = `
+    outline: 2px solid black; 
+    border-radius: 12px
+    `
+}
