@@ -92,3 +92,8 @@ p {
     text-align: center;
     margin: 0;
 }
+#round-num {
+    padding: 20px;
+    font-size: 32px;
+    color: black;
+}

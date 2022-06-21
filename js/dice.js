@@ -2,6 +2,7 @@ const btnRoll = document.getElementById('roll');
 
 let yourResult;
 let opponentResult;
+let roundCount = 1;
 
 const dice = {
     dice1: `
@@ -82,8 +83,9 @@ const diceOpHtml = [
     diceOpponent5 = document.getElementById('dice-opponent-5'),
 ]
 
-const yourScore = document.getElementById('your-score')
-const opponentScore = document.getElementById('opponent-score')
+const yourScore = document.getElementById('your-score');
+const opponentScore = document.getElementById('opponent-score');
+const roundNumber = document.getElementById('round-num');
 
 let opponent = [
     { value: 0 },
@@ -152,15 +154,19 @@ function calculateResults (arg) {
 }
 
 btnRoll.onclick = () => {
-    yourResult = 0;
-    opponentResult = 0;
-    rollMyDice();
-    rollOpponentDice();
-    calculateResults (player);
-    calculateResults (opponent);
-    yourScore.innerHTML = `Your score: ${player[5].result}`;
-    opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
-    window.setTimeout(whoWin, 200)
+    if (roundCount < 3) {
+        roundCount += 1
+        rollMyDice();
+        rollOpponentDice();
+        calculateResults (player);
+        calculateResults (opponent);
+        yourScore.innerHTML = `Your score: ${player[5].result}`;
+        opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
+        roundNumber.innerHTML = `Round №${roundCount}: Choose dice to re-roll`
+    } else {
+        window.setTimeout(whoWin, 200)
+        roundNumber.innerHTML = `Game Over`
+    }
 }
 
 function whoWin() {
@@ -185,7 +191,6 @@ for (let i = 0; i < 5; i++) {
         player[i].selected = false;
         diceHtml[i].style = `
             outline: none; 
-            border-radius: 12px
             `
         }
     }
