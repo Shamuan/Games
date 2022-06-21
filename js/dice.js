@@ -2,7 +2,7 @@ const btnRoll = document.getElementById('roll');
 
 let yourResult;
 let opponentResult;
-let roundCount = 1;
+let roundCount = 0;
 
 const dice = {
     dice1: `
@@ -154,23 +154,23 @@ function calculateResults (arg) {
     }
 }
 newGame.onclick = () => {
-    roundCount = 1;
+    roundCount = 0;
     newGame.style = `
         display: none
         `
     alert('Starting new game')
-    for (let i = 0; i < 5; i++) {
-        diceHtml[i].innerHTML = borderDice(1)
-        diceOpHtml[i].innerHTML = borderDice(1)
-    };
-    player[5].result = 0;
-    opponent[5].result = 0;
-    yourScore.innerHTML = `Your score: ${player[5].result}`;
-    opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
+    roundCount += 1
+        rollMyDice();
+        rollOpponentDice();
+        calculateResults (player);
+        calculateResults (opponent);
+        yourScore.innerHTML = `Your score: ${player[5].result}`;
+        opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
+        roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
 }
 
 btnRoll.onclick = () => {
-    if (roundCount < 4) {
+    if (roundCount < 3) {
         roundCount += 1
         rollMyDice();
         rollOpponentDice();
