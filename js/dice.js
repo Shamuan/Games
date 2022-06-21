@@ -158,15 +158,13 @@ newGame.onclick = () => {
     newGame.style = `
         display: none
         `
+    for (let i = 0; i < 5; i++) {
+        diceHtml[i].innerHTML = borderDice(6)
+        diceOpHtml[i].innerHTML = borderDice(6)
+    }
     alert('Starting new game')
-    roundCount += 1
-        rollMyDice();
-        rollOpponentDice();
-        calculateResults (player);
-        calculateResults (opponent);
-        yourScore.innerHTML = `Your score: ${player[5].result}`;
-        opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
-        roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
+    yourScore.innerHTML = `Your score: 0`;
+    opponentScore.innerHTML = `Opponent's score: 0`;
 }
 
 btnRoll.onclick = () => {
