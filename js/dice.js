@@ -162,10 +162,10 @@ btnRoll.onclick = () => {
         calculateResults (opponent);
         yourScore.innerHTML = `Your score: ${player[5].result}`;
         opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
-        roundNumber.innerHTML = `Round №${roundCount}: Choose dice to re-roll`
+        roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
     } else {
         window.setTimeout(whoWin, 200)
-        roundNumber.innerHTML = `Game Over`
+        roundNumber.innerHTML = `Game over!`
     }
 }
 
