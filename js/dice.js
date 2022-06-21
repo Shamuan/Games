@@ -170,7 +170,7 @@ newGame.onclick = () => {
 }
 
 btnRoll.onclick = () => {
-    if (roundCount < 3) {
+    if (roundCount < 4) {
         roundCount += 1
         rollMyDice();
         rollOpponentDice();
