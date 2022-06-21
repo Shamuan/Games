@@ -97,3 +97,8 @@ p {
     font-size: 32px;
     color: black;
 }
+#new-game {
+    padding: 20px;
+    font-size: 24px;
+    display: none;
+}

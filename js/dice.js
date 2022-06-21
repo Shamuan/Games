@@ -86,6 +86,7 @@ const diceOpHtml = [
 const yourScore = document.getElementById('your-score');
 const opponentScore = document.getElementById('opponent-score');
 const roundNumber = document.getElementById('round-num');
+const newGame = document.getElementById('new-game')
 
 let opponent = [
     { value: 0 },
@@ -152,6 +153,21 @@ function calculateResults (arg) {
         arg[5].result += +arg[i].value
     }
 }
+newGame.onclick = () => {
+    roundCount = 1;
+    newGame.style = `
+        display: none
+        `
+    alert('Starting new game')
+    for (let i = 0; i < 5; i++) {
+        diceHtml[i].innerHTML = borderDice(1)
+        diceOpHtml[i].innerHTML = borderDice(1)
+    };
+    player[5].result = 0;
+    opponent[5].result = 0;
+    yourScore.innerHTML = `Your score: ${player[5].result}`;
+    opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
+}
 
 btnRoll.onclick = () => {
     if (roundCount < 3) {
@@ -165,9 +181,14 @@ btnRoll.onclick = () => {
         roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
     } else {
         window.setTimeout(whoWin, 200)
+        newGame.style = `
+        display: inline-block
+        `
         roundNumber.innerHTML = `Game over!`
     }
 }
+
+
 
 function whoWin() {
     if (player[5].result > opponent[5].result) {
