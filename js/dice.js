@@ -2,7 +2,6 @@ const btnRoll = document.getElementById('roll');
 
 let yourResult;
 let opponentResult;
-let myDiceResults = [];
 
 const dice = {
     dice1: `
@@ -68,30 +67,61 @@ const dice = {
         `,
 }
 
-const diceNum1 = document.getElementById('dice-1');
-const diceNum2 = document.getElementById('dice-2');
-const diceNum3 = document.getElementById('dice-3');
-const diceNum4 = document.getElementById('dice-4');
-const diceNum5 = document.getElementById('dice-5');
-const diceOpponent1 = document.getElementById('dice-opponent-1');
-const diceOpponent2 = document.getElementById('dice-opponent-2');
-const diceOpponent3 = document.getElementById('dice-opponent-3');
-const diceOpponent4 = document.getElementById('dice-opponent-4');
-const diceOpponent5 = document.getElementById('dice-opponent-5');
+const diceHtml = [
+    diceNum1 = document.getElementById('dice-1'),
+    diceNum2 = document.getElementById('dice-2'),
+    diceNum3 = document.getElementById('dice-3'),
+    diceNum4 = document.getElementById('dice-4'),
+    diceNum5 = document.getElementById('dice-5'),
+]
+const diceOpHtml = [
+    diceOpponent1 = document.getElementById('dice-opponent-1'),
+    diceOpponent2 = document.getElementById('dice-opponent-2'),
+    diceOpponent3 = document.getElementById('dice-opponent-3'),
+    diceOpponent4 = document.getElementById('dice-opponent-4'),
+    diceOpponent5 = document.getElementById('dice-opponent-5'),
+]
+
 const yourScore = document.getElementById('your-score')
 const opponentScore = document.getElementById('opponent-score')
 
-function rollYourDice() {
-    let result = Math.floor((Math.random() * 6) + 1);
-    yourResult += result
-    myDiceResults.push(result)
-    return borderDice(result)
+let opponent = [
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { result: 0},
+]
+let player = [
+    { value: 0, selected: false },
+    { value: 0, selected: false },
+    { value: 0, selected: false },
+    { value: 0, selected: false },
+    { value: 0, selected: false },
+    { result: 0},
+]
+
+function rollMyDice() {
+    for (let i = 0; i < 5; i++) {
+        if (player[i].selected === false) 
+        player[i].value = calculateRoll();
+    }
+    displayDice()
 }
+
 function rollOpponentDice() {
-    let result = Math.floor((Math.random() * 6) + 1);
-    opponentResult += result
-    return borderDice(result)
+    for (let i = 0; i < 5; i++) {
+        opponent[i].value = calculateRoll();
+    }
+    displayDice()
 }
+
+function calculateRoll() {
+    let result = Math.floor((Math.random() * 6) + 1);
+    return result
+}
+
 function borderDice(result) {
     if (result === 1) {
         return dice.dice1
@@ -108,85 +138,55 @@ function borderDice(result) {
     }
 };
 
-function showYourDices() {
-    diceNum1.innerHTML = `${rollYourDice()}`;
-    diceNum2.innerHTML = `${rollYourDice()}`;
-    diceNum3.innerHTML = `${rollYourDice()}`;
-    diceNum4.innerHTML = `${rollYourDice()}`;
-    diceNum5.innerHTML = `${rollYourDice()}`;
-};
-function showOpponentDices() {
-    diceOpponent1.innerHTML = `${rollOpponentDice()}`;
-    diceOpponent2.innerHTML = `${rollOpponentDice()}`;
-    diceOpponent3.innerHTML = `${rollOpponentDice()}`;
-    diceOpponent4.innerHTML = `${rollOpponentDice()}`;
-    diceOpponent5.innerHTML = `${rollOpponentDice()}`;
-};
-// function whoWin() {
-//     if (yourResult > opponentResult) {
-//         alert('You Win!')
-//     } else if (yourResult < opponentResult) {
-//         alert('You Lose :(')
-//     } else {
-//         alert("Realy? it's draw")
-//     }
-// }
+function displayDice() {
+    for (let i = 0; i < 5; i++) {
+        diceHtml[i].innerHTML = borderDice(player[i].value)
+        diceOpHtml[i].innerHTML = borderDice(opponent[i].value)
+    }
+}
+function calculateResults (arg) {
+    arg[5].result = 0
+    for (i = 0; i < 5; i++) {
+        arg[5].result += +arg[i].value
+    }
+}
+
 btnRoll.onclick = () => {
     yourResult = 0;
     opponentResult = 0;
-    showYourDices();
-    showOpponentDices();
-    yourScore.innerHTML = `Your score: ${yourResult}`;
-    opponentScore.innerHTML = `Opponent's score: ${opponentResult}`;
+    rollMyDice();
+    rollOpponentDice();
+    calculateResults (player);
+    calculateResults (opponent);
+    yourScore.innerHTML = `Your score: ${player[5].result}`;
+    opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
     window.setTimeout(whoWin, 200)
 }
 
-diceNum1.onclick = () => {
-    if (diceNum1.getAttribute('status') === 'off') {
-        diceNum1.style = `
-        outline: 2px solid black; 
-        border-radius: 12px
-        `
-    diceNum1.setAttribute('status', 'on')
+function whoWin() {
+    if (player[5].result > opponent[5].result) {
+        alert('You Win!')
+    } else if (player[5].result < opponent[5].result) {
+        alert('You Lose :(')
+    } else {
+        alert("Realy? it's draw")
+    }
+}
 
+for (let i = 0; i < 5; i++) {
+    diceHtml[i].onclick = () => {
+        if (player[i].selected === false) {
+            player[i].selected = true;
+            diceHtml[i].style = `
+            outline: 6px solid black; 
+            border-radius: 12px
+            `
     } else {
-        diceNum1.style = `
-        outline: none; 
-        border-radius: 12px
-        `
-        diceNum1.setAttribute('status', 'on')
+        player[i].selected = false;
+        diceHtml[i].style = `
+            outline: none; 
+            border-radius: 12px
+            `
+        }
     }
-}
-diceNum2.onclick = () => {
-    if (diceNum2.getAttribute('status') === 'off') {
-        diceNum2.style = `
-        outline: 2px solid black; 
-        border-radius: 12px
-        `
-    diceNum2.setAttribute('status', 'on')
-    } else {
-        diceNum2.style = `
-        outline: none; 
-        border-radius: 12px
-        `
-        diceNum2.setAttribute('status', 'on')
-    }
-}
-diceNum3.onclick = () => {
-    diceNum3.style = `
-    outline: 2px solid black; 
-    border-radius: 12px
-    `
-}
-diceNum4.onclick = () => {
-    diceNum4.style = `
-    outline: 2px solid black; 
-    border-radius: 12px
-    `
-}
-diceNum5.onclick = () => {
-    diceNum5.style = `
-    outline: 2px solid black; 
-    border-radius: 12px
-    `
 }
