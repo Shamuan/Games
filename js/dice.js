@@ -155,14 +155,8 @@ function calculateResults (arg) {
 }
 newGame.onclick = () => {
     roundCount = 0;
-    newGame.style = `
-        display: none
-        `
-    for (let i = 0; i < 5; i++) {
-        diceHtml[i].innerHTML = borderDice(6)
-        diceOpHtml[i].innerHTML = borderDice(6)
-    }
-    alert('Starting new game')
+    newGame.style = `display: none`;
+    alert('Starting new game');
     yourScore.innerHTML = `Your score: 0`;
     opponentScore.innerHTML = `Opponent's score: 0`;
 }
