@@ -1,8 +1,9 @@
 const btnRoll = document.getElementById('roll');
-
-let yourResult;
-let opponentResult;
 let roundCount = 0;
+const yourScore = document.getElementById('your-score');
+const opponentScore = document.getElementById('opponent-score');
+const roundNumber = document.getElementById('round-num');
+const newGame = document.getElementById('new-game')
 
 const dice = {
     dice1: `
@@ -83,10 +84,7 @@ const diceOpHtml = [
     diceOpponent5 = document.getElementById('dice-opponent-5'),
 ]
 
-const yourScore = document.getElementById('your-score');
-const opponentScore = document.getElementById('opponent-score');
-const roundNumber = document.getElementById('round-num');
-const newGame = document.getElementById('new-game')
+
 
 let opponent = [
     { value: 0 },
@@ -159,18 +157,29 @@ newGame.onclick = () => {
     alert('Starting new game');
     yourScore.innerHTML = `Your score: 0`;
     opponentScore.innerHTML = `Opponent's score: 0`;
+    roundNumber.innerHTML = `Roll dice`
+    for (i = 0; i < 5; i++) {
+        if (player[i].selected = true) {
+            diceHtml[i].click()
+        }
+    diceHtml[i].innerHTML = ''
+    }
+}
+
+function playinRound () {
+    rollMyDice();
+    rollOpponentDice();
+    calculateResults (player);
+    calculateResults (opponent);
+    yourScore.innerHTML = `Your score: ${player[5].result}`;
+    opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
+    roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
 }
 
 btnRoll.onclick = () => {
     if (roundCount < 3) {
         roundCount += 1
-        rollMyDice();
-        rollOpponentDice();
-        calculateResults (player);
-        calculateResults (opponent);
-        yourScore.innerHTML = `Your score: ${player[5].result}`;
-        opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
-        roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
+        playinRound()
     } else {
         window.setTimeout(whoWin, 200)
         newGame.style = `
@@ -179,8 +188,6 @@ btnRoll.onclick = () => {
         roundNumber.innerHTML = `Game over!`
     }
 }
-
-
 
 function whoWin() {
     if (player[5].result > opponent[5].result) {
@@ -200,11 +207,11 @@ for (let i = 0; i < 5; i++) {
             outline: 6px solid black; 
             border-radius: 12px
             `
-    } else {
-        player[i].selected = false;
-        diceHtml[i].style = `
-            outline: none; 
-            `
+        } else {
+            player[i].selected = false;
+            diceHtml[i].style = `
+                outline: none; 
+                `
         }
     }
 }
