@@ -3,7 +3,10 @@ let roundCount = 0;
 const yourScore = document.getElementById('your-score');
 const opponentScore = document.getElementById('opponent-score');
 const roundNumber = document.getElementById('round-num');
-const newGame = document.getElementById('new-game')
+const newGame = document.getElementById('new-game');
+let playerResult = [];
+let opponentResult = [];
+
 
 const dice = {
     dice1: `
@@ -92,7 +95,6 @@ let opponent = [
     { value: 0 },
     { value: 0 },
     { value: 0 },
-    { result: 0},
 ]
 let player = [
     { value: 0, selected: false },
@@ -100,7 +102,6 @@ let player = [
     { value: 0, selected: false },
     { value: 0, selected: false },
     { value: 0, selected: false },
-    { result: 0},
 ]
 
 function rollMyDice() {
@@ -145,12 +146,32 @@ function displayDice() {
         diceOpHtml[i].innerHTML = borderDice(opponent[i].value)
     }
 }
-function calculateResults (arg) {
-    arg[5].result = 0
+function calculateResultsPlayer() {
+    playerResult.splice(0, playerResult.length);
+    for (let i = 0; i < player.length; i++) {
+        playerResult.push(player[i].value)
+    }
+    return playerResult
+}
+function calculateResultsOpponent() {
+    opponentResult = 0;
     for (i = 0; i < 5; i++) {
-        arg[5].result += +arg[i].value
+        opponentResult += opponent[i].value
     }
 }
+
+function sortArray(a, b) {
+    return a > b ? 1 : b > a ? -1 : 0;
+}
+
+function straight() {
+    playerResult.sort(sortArray)
+    if (playerResult == [1, 2, 3, 4, 5]) {
+        console.log('10')
+    } else (playerResult == [2, 3, 4, 5, 6]) 
+        console.log('11')
+}
+
 newGame.onclick = () => {
     roundCount = 0;
     newGame.style = `display: none`;
@@ -166,13 +187,13 @@ newGame.onclick = () => {
     }
 }
 
-function playinRound () {
+function playinRound() {
     rollMyDice();
     rollOpponentDice();
-    calculateResults (player);
-    calculateResults (opponent);
-    yourScore.innerHTML = `Your score: ${player[5].result}`;
-    opponentScore.innerHTML = `Opponent's score: ${opponent[5].result}`;
+    calculateResultsPlayer ();
+    calculateResultsOpponent ();
+    yourScore.innerHTML = `Your score: ${playerResult}`;
+    opponentScore.innerHTML = `Opponent's score: ${opponentResult}`;
     roundNumber.innerHTML = `Round №${roundCount}: Choose dice to keep`
 }
 
@@ -190,9 +211,9 @@ btnRoll.onclick = () => {
 }
 
 function whoWin() {
-    if (player[5].result > opponent[5].result) {
+    if (playerResult > opponentResult) {
         alert('You Win!')
-    } else if (player[5].result < opponent[5].result) {
+    } else if (playerResult < opponentResult) {
         alert('You Lose :(')
     } else {
         alert("Realy? it's draw")
